@@ -1,0 +1,92 @@
+<UserControl x:Class="UjangKasir.Desktop.Views.SettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.4*"/>
+            <ColumnDefinition Width="16"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Manajemen User" FontSize="24" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding Description}" Foreground="{StaticResource MutedTextBrush}" Margin="0,6,0,12"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                </StackPanel>
+
+                <DataGrid Grid.Row="1"
+                          ItemsSource="{Binding Users}"
+                          SelectedItem="{Binding SelectedUser}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="140"/>
+                        <DataGridTextColumn Header="Nama" Binding="{Binding FullName}" Width="2*"/>
+                        <DataGridTextColumn Header="Role" Binding="{Binding Role.Name}" Width="110"/>
+                        <DataGridCheckBoxColumn Header="Aktif" Binding="{Binding IsActive}" Width="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Grid.Row="1"
+                           Text="Belum ada user."
+                           Foreground="{StaticResource MutedTextBrush}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Users.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,14,0,0">
+                    <Button Content="Tambah User" Command="{Binding NewUserCommand}" Padding="16,8" Margin="0,0,8,0"/>
+                    <Button Content="Edit" Command="{Binding EditSelectedUserCommand}" Padding="16,8" Margin="0,0,8,0"/>
+                    <Button Content="Nonaktifkan" Command="{Binding DeactivateSelectedUserCommand}" Padding="16,8" Background="{StaticResource DangerBrush}" Foreground="White" BorderThickness="0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="2" Style="{StaticResource CardBorderStyle}">
+            <StackPanel>
+                <TextBlock Text="Form User" FontSize="22" FontWeight="SemiBold"/>
+                <TextBlock Text="Untuk user baru, password wajib diisi. Untuk edit, kosongkan password jika tidak ingin mengganti." Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap" Margin="0,6,0,16"/>
+
+                <TextBlock Text="Username"/>
+                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,10"/>
+
+                <TextBlock Text="Nama Lengkap"/>
+                <TextBox Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,10"/>
+
+                <TextBlock Text="Password"/>
+                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,10"/>
+
+                <TextBlock Text="Role"/>
+                <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}" DisplayMemberPath="Name" Margin="0,4,0,10"/>
+
+                <CheckBox Content="User aktif" IsChecked="{Binding UserIsActive}" Margin="0,0,0,14"/>
+
+                <Button Content="Simpan User"
+                        Command="{Binding SaveUserCommand}"
+                        Height="40"
+                        Background="{StaticResource PrimaryGreenBrush}"
+                        Foreground="White"
+                        BorderThickness="0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,11 @@
+<UserControl x:Class="UjangKasir.Desktop.Views.PlaceholderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource CardBorderStyle}">
+        <StackPanel>
+            <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding Description}" Foreground="{StaticResource MutedTextBrush}" Margin="0,8,0,18"/>
+            <TextBlock Text="Halaman ini masih placeholder."/>
+        </StackPanel>
+    </Border>
+</UserControl>

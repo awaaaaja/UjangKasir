@@ -1,0 +1,56 @@
+<Window x:Class="UjangKasir.Desktop.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login - UjangKasir"
+        Height="520"
+        Width="420"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="28">
+        <Border Style="{StaticResource CardBorderStyle}"
+                VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="UjangKasir"
+                           Foreground="{StaticResource PrimaryGreenBrush}"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Masuk ke aplikasi kasir"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           Margin="0,6,0,26"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Text="Username"
+                           Foreground="{StaticResource DarkNavyBrush}"
+                           FontWeight="SemiBold"/>
+                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                         Height="38"
+                         Margin="0,6,0,16"/>
+
+                <TextBlock Text="Password"
+                           Foreground="{StaticResource DarkNavyBrush}"
+                           FontWeight="SemiBold"/>
+                <PasswordBox x:Name="PasswordInput"
+                             Height="38"
+                             Margin="0,6,0,10"
+                             PasswordChanged="OnPasswordChanged"/>
+
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="{StaticResource DangerBrush}"
+                           TextWrapping="Wrap"
+                           MinHeight="24"
+                           Margin="0,0,0,12"/>
+
+                <Button Content="Login"
+                        Command="{Binding LoginCommand}"
+                        Height="42"
+                        Background="{StaticResource PrimaryGreenBrush}"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

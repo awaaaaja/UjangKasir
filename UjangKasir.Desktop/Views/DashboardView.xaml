@@ -1,0 +1,35 @@
+<UserControl x:Class="UjangKasir.Desktop.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding Description}"
+                   Foreground="{StaticResource MutedTextBrush}"
+                   FontSize="14"/>
+
+        <UniformGrid Grid.Row="1" Columns="3" Margin="0,18,0,0">
+            <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,14,0">
+                <StackPanel>
+                    <TextBlock Text="Penjualan Hari Ini" Foreground="{StaticResource MutedTextBrush}"/>
+                    <TextBlock Text="Rp0" FontSize="28" FontWeight="Bold" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,14,0">
+                <StackPanel>
+                    <TextBlock Text="Transaksi" Foreground="{StaticResource MutedTextBrush}"/>
+                    <TextBlock Text="0" FontSize="28" FontWeight="Bold" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Text="Stok Menipis" Foreground="{StaticResource MutedTextBrush}"/>
+                    <TextBlock Text="0" FontSize="28" FontWeight="Bold" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+    </Grid>
+</UserControl>

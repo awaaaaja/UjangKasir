@@ -1,0 +1,131 @@
+<UserControl x:Class="UjangKasir.Desktop.Views.BackupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Text="Backup Manual" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="Database SQLite akan disalin ke folder backup pilihan."
+                               Foreground="{StaticResource MutedTextBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,6,0,12"/>
+                    <TextBlock Text="Backup Path"/>
+                    <TextBox Text="{Binding BackupPath, UpdateSourceTrigger=PropertyChanged}"
+                             Height="36"
+                             Margin="0,4,0,12"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Backup Sekarang"
+                                Command="{Binding BackupCommand}"
+                                Padding="16,8"
+                                Margin="0,0,8,0"/>
+                        <Button Content="Refresh"
+                                Command="{Binding LoadCommand}"
+                                Padding="16,8"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Text="Restore Database" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="Restore hanya untuk Owner/Admin. Sebelum restore, sistem membuat backup otomatis data saat ini."
+                               Foreground="{StaticResource MutedTextBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,6,0,12"/>
+                    <TextBlock Text="File Backup"/>
+                    <Grid Margin="0,4,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding RestoreFilePath, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="36"
+                                 Margin="0,0,8,0"/>
+                        <Button Grid.Column="1"
+                                Content="Pilih"
+                                Command="{Binding BrowseRestoreFileCommand}"
+                                Padding="14,7"/>
+                    </Grid>
+                    <Button Content="Restore Database"
+                            Command="{Binding RestoreCommand}"
+                            Padding="16,8"
+                            Background="{StaticResource DangerBrush}"
+                            Foreground="White"
+                            BorderThickness="0"
+                            HorizontalAlignment="Left"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource CardBorderStyle}" Margin="0,16,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="File Backup" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="{StaticResource DangerBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,6,0,10"/>
+                    <TextBlock Text="Sedang memproses..."
+                               Foreground="{StaticResource MutedTextBrush}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <DataGrid Grid.Row="1"
+                          ItemsSource="{Binding BackupFiles}"
+                          SelectedItem="{Binding SelectedBackup}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="File" Binding="{Binding FilePath}" Width="3*"/>
+                        <DataGridTextColumn Header="Tanggal" Binding="{Binding CreatedAt, StringFormat=dd/MM/yyyy HH:mm}" Width="160"/>
+                        <DataGridTextColumn Header="Ukuran Bytes" Binding="{Binding SizeBytes, StringFormat=N0}" Width="130"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Grid.Row="1"
+                           Text="Belum ada file backup di folder ini."
+                           Foreground="{StaticResource MutedTextBrush}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BackupFiles.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

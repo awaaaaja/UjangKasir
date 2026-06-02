@@ -1,0 +1,150 @@
+<UserControl x:Class="UjangKasir.Desktop.Views.ReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource CardBorderStyle}" Padding="14">
+            <StackPanel>
+                <TextBlock Text="{Binding Description}"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,12"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Text="Tanggal Mulai" FontWeight="SemiBold"/>
+                        <DatePicker SelectedDate="{Binding StartDate}" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Tanggal Akhir" FontWeight="SemiBold"/>
+                        <DatePicker SelectedDate="{Binding EndDate}" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <TextBlock Text="Jenis Laporan" FontWeight="SemiBold"/>
+                        <ComboBox ItemsSource="{Binding ReportTypes}"
+                                  SelectedItem="{Binding SelectedReportType}"
+                                  Height="30"
+                                  Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="5"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+                        <Button Content="Buat Laporan"
+                                Command="{Binding GenerateCommand}"
+                                Padding="14,7"
+                                Margin="0,0,8,0"/>
+                        <Button Content="Export Excel"
+                                Command="{Binding ExportExcelCommand}"
+                                Padding="14,7"
+                                Margin="0,0,8,0"/>
+                        <Button Content="Export PDF"
+                                Command="{Binding ExportPdfCommand}"
+                                Padding="14,7"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="0,16,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <UniformGrid Columns="3">
+                <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="Total Penjualan" Foreground="{StaticResource MutedTextBrush}"/>
+                        <TextBlock Text="{Binding TotalSalesLabel}" FontSize="26" FontWeight="Bold" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="Laba Kotor" Foreground="{StaticResource MutedTextBrush}"/>
+                        <TextBlock Text="{Binding TotalGrossProfitLabel}" FontSize="26" FontWeight="Bold" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Transaksi / Baris" Foreground="{StaticResource MutedTextBrush}"/>
+                        <TextBlock Text="{Binding TotalTransactionsLabel}" FontSize="26" FontWeight="Bold" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <Border Grid.Row="1" Style="{StaticResource CardBorderStyle}" Margin="0,16,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="{StaticResource DangerBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="Sedang memproses..."
+                               Foreground="{StaticResource MutedTextBrush}"
+                               HorizontalAlignment="Right">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <DataGrid Grid.Row="1"
+                              ItemsSource="{Binding Rows}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kolom 1" Binding="{Binding Column1}" Width="1.4*"/>
+                            <DataGridTextColumn Header="Kolom 2" Binding="{Binding Column2}" Width="1.2*"/>
+                            <DataGridTextColumn Header="Kolom 3" Binding="{Binding Column3}" Width="1.2*"/>
+                            <DataGridTextColumn Header="Kolom 4" Binding="{Binding Column4}" Width="1.2*"/>
+                            <DataGridTextColumn Header="Kolom 5" Binding="{Binding Column5}" Width="1.2*"/>
+                            <DataGridTextColumn Header="Kolom 6" Binding="{Binding Column6}" Width="1.2*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Grid.Row="1"
+                               Text="Belum ada data laporan. Pilih filter lalu klik Buat Laporan."
+                               Foreground="{StaticResource MutedTextBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Rows.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

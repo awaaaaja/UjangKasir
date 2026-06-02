@@ -1,0 +1,59 @@
+<UserControl x:Class="UjangKasir.Desktop.Views.SupplierView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.4*"/>
+            <ColumnDefinition Width="16"/>
+            <ColumnDefinition Width="0.9*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Height="38" Margin="0,0,0,12"/>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Kode" Binding="{Binding Code}" Width="90"/>
+                        <DataGridTextColumn Header="Nama" Binding="{Binding Name}" Width="2*"/>
+                        <DataGridTextColumn Header="Kontak" Binding="{Binding ContactPerson}" Width="130"/>
+                        <DataGridTextColumn Header="Telepon" Binding="{Binding Phone}" Width="120"/>
+                        <DataGridCheckBoxColumn Header="Aktif" Binding="{Binding IsActive}" Width="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="2" Style="{StaticResource CardBorderStyle}">
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock Text="Form Supplier" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap" Margin="0,6,0,12"/>
+                    <TextBlock Text="Kode"/>
+                    <TextBox Text="{Binding SelectedSupplier.Code, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+                    <TextBlock Text="Nama"/>
+                    <TextBox Text="{Binding SelectedSupplier.Name, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+                    <TextBlock Text="Contact Person"/>
+                    <TextBox Text="{Binding SelectedSupplier.ContactPerson, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+                    <TextBlock Text="Telepon"/>
+                    <TextBox Text="{Binding SelectedSupplier.Phone, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+                    <TextBlock Text="Email"/>
+                    <TextBox Text="{Binding SelectedSupplier.Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+                    <TextBlock Text="Alamat"/>
+                    <TextBox Text="{Binding SelectedSupplier.Address, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8" AcceptsReturn="True" Height="70"/>
+                    <TextBlock Text="Catatan"/>
+                    <TextBox Text="{Binding SelectedSupplier.Notes, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8" AcceptsReturn="True" Height="60"/>
+                    <CheckBox Content="Aktif" IsChecked="{Binding SelectedSupplier.IsActive}" Margin="0,0,0,12"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Baru" Command="{Binding NewCommand}" Padding="14,8" Margin="0,0,8,0"/>
+                        <Button Content="Simpan" Command="{Binding SaveCommand}" Padding="14,8" Margin="0,0,8,0"/>
+                        <Button Content="Nonaktif" Command="{Binding DeactivateCommand}" Padding="14,8"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>
